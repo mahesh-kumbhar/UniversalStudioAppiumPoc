@@ -1,0 +1,16 @@
+userName: mahesh_YVwWF2
+accessKey: gN2PqosqbePbThuxzppf
+framework: testng
+app: bs://697b00e88c6e0fff18bf49b8a11278d1ba1bca85
+platforms:
+  - platformName: android
+    realMobile: 11
+    deviceName: Samsung Galaxy S22 Ultra
+    platformVersion: 12.0
+parallelsPerPlatform: 1
+browserstackLocal: true
+buildName: BuyTicket-demo
+projectName: Universal Orlando Resort
+testObservability: true
+debug: true
+networkLogs: true

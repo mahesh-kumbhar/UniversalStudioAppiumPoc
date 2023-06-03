@@ -1,0 +1,19 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+/Screenshots/
+ExtentReport.html
+
+# Class File
+*.class
+*.png
+.idea/
+/.idea/
+
+
+#Build Path
+target/
+/target/
+
+**/*.class
+**/*.html

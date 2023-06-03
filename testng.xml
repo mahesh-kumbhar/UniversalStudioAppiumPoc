@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<suite name="All Test Suite" parallel="tests" thread-count="5">
+
+    <listeners>
+        <listener class-name="reporting.ExtentTestNGITestListenerAdapter" />
+    </listeners>
+
+    <parameter name="browserstack.user" value="mahesh_YVwWF2"/>
+    <parameter name="browserstack.key" value="gN2PqosqbePbThuxzppf"/>
+
+    <parameter name="platformName" value="android"/>
+    <parameter name="device" value="emulator-5554"/>
+    <parameter name="os_version" value="11.0"/>
+    <parameter name="app" value="bs://697b00e88c6e0fff18bf49b8a11278d1ba1bca85"/>
+
+    // Set Of Android Test
+    <test  name="Create Account Tests - Android">
+        <classes>
+            <class name="tests.SignInTests"/>
+        </classes>
+    </test>
+
+
+
+
+</suite>
+
+
+        <!--
+
+<class name="tests.CreateAccountTests"/>
+
+ "/Users/capgemini/Desktop/AppiumFramework/Builds/UniversalOrlandoResort.apk"/> //"bs://cf3690a6a723bc1f6d13b6b6f8a41c9a89e76c2a"
+
+
+
+
+
+
+        "bs://bf3c0810382bb9657bc65b1d42e584fbec70fe6a"
+
+<parameter name="platformName" value="android"/>
+
+
+           capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, "UIAutomator2");
+            capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "Android");
+            capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "emulator-5554");
+            capabilities.setCapability(MobileCapabilityType.APP, "/Users/capgemini/Desktop/BuildReact/FreshDirectReact.apk");
+            capabilities.setCapability("android:recordScreen", true);
+
+
+
+    // Set Of iOS Test
+    <test  name="Login Page Tests - iOS">
+        <parameter name="platformName" value="ios"/>
+        <classes>
+            <class name="tests.LoginPageTests"/>
+            <class name="tests.CreateAccountTests"/>
+        </classes>
+    </test>
+
+         -->
+

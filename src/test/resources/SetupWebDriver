@@ -1,0 +1,14 @@
+capgemini@Capgeminis-Mac-mini ~ % echi "$(dirname "$(find "$HOME/.appium" -name WebDriverAgent.xcodeproj)")"
+zsh: command not found: echi
+capgemini@Capgeminis-Mac-mini ~ % echo "$(dirname "$(find "$HOME/.appium" -name WebDriverAgent.xcodeproj)")"
+/Users/capgemini/.appium/node_modules/appium-xcuitest-driver/node_modules/appium-webdriveragent
+capgemini@Capgeminis-Mac-mini ~ % cd /Users/capgemini/.appium/node_modules/appium-xcuitest-driver/node_modules/appium-webdriveragent
+capgemini@Capgeminis-Mac-mini appium-webdriveragent % mkdir -p Resources/WebDriverAgent.bundle
+capgemini@Capgeminis-Mac-mini appium-webdriveragent % if expied
+if>
+if> End
+if> /
+if> nd
+if> end
+zsh: parse error near `end'
+capgemini@Capgeminis-Mac-mini appium-webdriveragent % xcodebuild -project WebDriverAgent.xcodeproj -scheme WebDriverAgentRunner -destination 'id=00008030-000C74D10145802E' test -allowProvisioningUpdates
