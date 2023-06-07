@@ -8,15 +8,15 @@
     <parameter name="browserstack.user" value="mahesh_YVwWF2"/>
     <parameter name="browserstack.key" value="gN2PqosqbePbThuxzppf"/>
 
-    <parameter name="platformName" value="android"/>
-    <parameter name="device" value="emulator-5554"/>
+    <parameter name="app" value="/Users/CG/Downloads/amazonApp.apk"/>
+    <parameter name="device" value="R9ZT2074CNM"/>//"emulator-5554"
     <parameter name="os_version" value="11.0"/>
-    <parameter name="app" value="bs://697b00e88c6e0fff18bf49b8a11278d1ba1bca85"/>
+
 
     // Set Of Android Test
     <test  name="Create Account Tests - Android">
         <classes>
-            <class name="tests.SignInTests"/>
+            <class name="tests.AmazonAppTests"/>
         </classes>
     </test>
 
@@ -27,8 +27,8 @@
 
 
         <!--
-
-<class name="tests.CreateAccountTests"/>
+    <parameter name="app" value="bs://697b00e88c6e0fff18bf49b8a11278d1ba1bca85"/>
+<class name="tests.aCreateAccountTests"/>
 
  "/Users/capgemini/Desktop/AppiumFramework/Builds/UniversalOrlandoResort.apk"/> //"bs://cf3690a6a723bc1f6d13b6b6f8a41c9a89e76c2a"
 
@@ -54,8 +54,8 @@
     <test  name="Login Page Tests - iOS">
         <parameter name="platformName" value="ios"/>
         <classes>
-            <class name="tests.LoginPageTests"/>
-            <class name="tests.CreateAccountTests"/>
+            <class name="tests.aLoginPageTests"/>
+            <class name="tests.aCreateAccountTests"/>
         </classes>
     </test>
 

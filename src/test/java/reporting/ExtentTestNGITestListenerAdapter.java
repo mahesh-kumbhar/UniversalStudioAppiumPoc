@@ -38,7 +38,8 @@ public class ExtentTestNGITestListenerAdapter extends TestListenerAdapter
 
     @Override
     public void onTestStart(ITestResult result) {
-        extentTest = extent.createTest(result.getTestClass().getName() + "::" + result.getMethod().getMethodName());
+        //extentTest = extent.createTest(result.getTestClass().getName() + "::" + result.getMethod().getMethodName());
+        extentTest = extent.createTest(result.getMethod().getMethodName());
         test.set(extentTest);
 
         // Share extentTest report object to src.main.test package for Test Step logging purpose

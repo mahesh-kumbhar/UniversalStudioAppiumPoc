@@ -9,7 +9,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Parameters;
-import pages.OnBoardingPage;
+import pages.HomePage;
 
 import java.io.IOException;
 import java.net.URL;
@@ -19,23 +19,59 @@ public class BaseSettings
 {
     public static AppiumDriver driver;
     //SignInPage signInPage ;
-    OnBoardingPage onBoardingPage;
+    HomePage homePage;
     DesiredCapabilities capabilities = new DesiredCapabilities();
 
-    @Parameters({"platformName","device","os_version","app","browserstack.user","browserstack.key"}) //-
+    @Parameters({"device","os_version","app","browserstack.user","browserstack.key"}) //-
     @BeforeClass
-    public void setUp(String platformName,String deviceName, String osVersion, String app,String bstackUser,String bstackKey) throws IOException {
+    public void setUp(String deviceName, String osVersion, String app,String bstackUser,String bstackKey) throws IOException {
 
         // Start Driver As per capability
-        startDriver( platformName, deviceName,  osVersion,  app,bstackUser, bstackKey);
+        startDriver( deviceName,  osVersion,  app,bstackUser, bstackKey);
         //driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         //signInPage = new SignInPage(driver);
-        onBoardingPage = new OnBoardingPage(driver);
+        homePage = new HomePage(driver);
     }
 
-    public void startDriver(String platformName,String deviceName, String osVersion, String app,String bstackUser,String bstackKey) throws IOException
+    public void startDriver(String deviceName, String osVersion, String app,String bstackUser,String bstackKey) throws IOException
     {
-        if (platformName.equalsIgnoreCase("android"))
+
+        // Set the appropriate capabilities for Android
+        if (app.contains("apk"))
+        {
+            capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, "UIAutomator2");
+            capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "Android");
+            capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, deviceName);
+            capabilities.setCapability(MobileCapabilityType.APP, app);
+
+          //  capabilities.setCapability("noReset", true);  // Do not reset app state between sessions
+          // capabilities.setCapability("fullReset", false);  // Do not reinstall the app on every session
+
+
+            driver = new AndroidDriver(new URL("http://0.0.0.0:4723"), capabilities);
+
+            /*
+            capabilities.setCapability("appPackage", "com.universalstudios.orlandoresort");
+            capabilities.setCapability("appActivity", "com.universalstudios.orlandoresort.controller.userinterface.launcher.LauncherActivity");
+
+             */
+
+        }
+
+        // Set the appropriate capabilities for iOS
+        else if (app.contains(".ipa"))
+        {
+            capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, "XCUITest");
+            capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "iOS");
+            capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone");
+            capabilities.setCapability("appium:udid", "00008030-000C74D10145802E");
+            capabilities.setCapability(MobileCapabilityType.APP, "/Users/capgemini/Desktop/BuildReact/FreshDirectReact.ipa");
+            capabilities.setCapability("ios:recordScreen", true);
+
+            driver = new IOSDriver(new URL("http://0.0.0.0:4723"), capabilities);
+
+        }
+        if (app.contains("androidC"))
         {
             // Use Java Client v6.0.0 or above
             DesiredCapabilities capabilities = new DesiredCapabilities();
@@ -53,32 +89,6 @@ public class BaseSettings
 
             URL browserStackUrl = new URL("https://" + bstackUser + ":" + bstackKey + "@hub-cloud.browserstack.com/wd/hub");
             driver = new AppiumDriver(browserStackUrl, capabilities);
-
-        }
-        // Set the appropriate capabilities for Android
-        if (platformName.equalsIgnoreCase("androidLocal"))
-        {
-            capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, "UIAutomator2");
-            capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "Android");
-            capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, deviceName);
-            capabilities.setCapability("appPackage", "com.universalstudios.orlandoresort");
-            capabilities.setCapability("appActivity", "com.universalstudios.orlandoresort.controller.userinterface.launcher.LauncherActivity");
-
-            driver = new AndroidDriver(new URL("http://0.0.0.0:4723"), capabilities);
-
-        }
-
-        // Set the appropriate capabilities for iOS
-        else if (platformName.equalsIgnoreCase("ios"))
-        {
-            capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, "XCUITest");
-            capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "iOS");
-            capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone");
-            capabilities.setCapability("appium:udid", "00008030-000C74D10145802E");
-            capabilities.setCapability(MobileCapabilityType.APP, "/Users/capgemini/Desktop/BuildReact/FreshDirectReact.ipa");
-            capabilities.setCapability("ios:recordScreen", true);
-
-            driver = new IOSDriver(new URL("http://0.0.0.0:4723"), capabilities);
 
         }
 

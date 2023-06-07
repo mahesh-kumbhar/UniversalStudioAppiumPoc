@@ -1,6 +1,7 @@
 package userActions;
 
 import com.aventstack.extentreports.Status;
+import dev.failsafe.internal.util.Assert;
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.AppiumDriver;
 import org.openqa.selenium.NoSuchElementException;
@@ -36,6 +37,13 @@ public class UserActions
         waitForElement(element);
         element.click();
         addLog("Clicked on : " +eleName);
+    }
+
+    //This Function will use to verify and assert if not displayed
+    public void isDisplayed(WebElement element,String eleName)
+    {
+        Assert.isTrue(element.isDisplayed(),("Verified - " + eleName + " is displayed "));
+        addLog("Verified - " + eleName + " is displayed ");
     }
 
     public void waitForSeconds(int SecondsWait)
