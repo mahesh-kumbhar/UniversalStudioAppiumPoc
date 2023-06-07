@@ -11,6 +11,8 @@
     <parameter name="app" value="/Users/CG/Downloads/amazonApp.apk"/>
     <parameter name="device" value="R9ZT2074CNM"/>//"emulator-5554"
     <parameter name="os_version" value="11.0"/>
+    <parameter name="appPackage" value="in.amazon.mShop.android.shopping"/>
+    <parameter name="appActivity" value="com.amazon.twa.CustomTWALauncherActivity"/>
 
 
     // Set Of Android Test

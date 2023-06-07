@@ -22,18 +22,18 @@ public class BaseSettings
     HomePage homePage;
     DesiredCapabilities capabilities = new DesiredCapabilities();
 
-    @Parameters({"device","os_version","app","browserstack.user","browserstack.key"}) //-
+    @Parameters({"device","os_version","app","browserstack.user","browserstack.key","appPackage","appActivity"}) //-
     @BeforeClass
-    public void setUp(String deviceName, String osVersion, String app,String bstackUser,String bstackKey) throws IOException {
+    public void setUp(String deviceName, String osVersion, String app,String bstackUser,String bstackKey,String appPackage,String appActivity) throws IOException {
 
         // Start Driver As per capability
-        startDriver( deviceName,  osVersion,  app,bstackUser, bstackKey);
+        startDriver( deviceName,  osVersion,  app,bstackUser, bstackKey,appPackage,appActivity);
         //driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         //signInPage = new SignInPage(driver);
         homePage = new HomePage(driver);
     }
 
-    public void startDriver(String deviceName, String osVersion, String app,String bstackUser,String bstackKey) throws IOException
+    public void startDriver(String deviceName, String osVersion, String app,String bstackUser,String bstackKey,String appPackage, String appActivity) throws IOException
     {
 
         // Set the appropriate capabilities for Android
@@ -42,7 +42,9 @@ public class BaseSettings
             capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, "UIAutomator2");
             capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "Android");
             capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, deviceName);
-            capabilities.setCapability(MobileCapabilityType.APP, app);
+
+            capabilities.setCapability("appPackage", appPackage);
+            capabilities.setCapability("appActivity", appActivity);
 
           //  capabilities.setCapability("noReset", true);  // Do not reset app state between sessions
           // capabilities.setCapability("fullReset", false);  // Do not reinstall the app on every session
@@ -51,9 +53,7 @@ public class BaseSettings
             driver = new AndroidDriver(new URL("http://0.0.0.0:4723"), capabilities);
 
             /*
-            capabilities.setCapability("appPackage", "com.universalstudios.orlandoresort");
-            capabilities.setCapability("appActivity", "com.universalstudios.orlandoresort.controller.userinterface.launcher.LauncherActivity");
-
+         capabilities.setCapability(MobileCapabilityType.APP, app);
              */
 
         }

@@ -1,11 +1,11 @@
 package tests;
 
 import org.testng.annotations.Test;
-
-import java.util.List;
+import pages.PlpPage;
 
 public class AmazonAppTests extends BaseSettings
 {
+    PlpPage plpPage;
 
     @Test
     public void  verifyHomePageElements()
@@ -17,6 +17,16 @@ public class AmazonAppTests extends BaseSettings
 
         homePage.searchProduct("ear bud");
         homePage.getSuggestionsList("ear bud");
+
+        plpPage = homePage.openSearchSuggestionProduct();
     }
+
+    @Test
+    public void verifyProductFilter()
+    {
+       plpPage.filerByPriceLowToHigh();
+
+    }
+
 
 }

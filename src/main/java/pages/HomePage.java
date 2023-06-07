@@ -1,6 +1,5 @@
 package pages;
 
-import dev.failsafe.internal.util.Assert;
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
@@ -12,8 +11,6 @@ import userActions.UserActions;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
-
-import static utilitys.TimeUtility.getNextMonth;
 
 public class HomePage extends UserActions
 {
@@ -32,6 +29,9 @@ public class HomePage extends UserActions
     @AndroidFindBy(className ="android.widget.EditText")
     private WebElement searchBox;
 
+    @AndroidFindBy(xpath ="(//*[@resource-id='suggestions2']//*[contains(@class, 'android.widget.Button')])[3]")
+    private WebElement searchSuggestedProduct;
+
     public void verifyHomePageElements()
     {
         longWaitForElement (logoAmazonIn);
@@ -43,9 +43,14 @@ public class HomePage extends UserActions
         sendKeys(searchBox,"Searchbar",productName);
     }
 
+
+
+
     public void getSuggestionsList (String searchProduct ) {
         List<String> suggestions = new ArrayList<>();
 
+        waitForSeconds(5);
+        System.out.println("*** Verifying Search Suggestions ***");
         WebElement suggestionsContainer = driver.findElement(AppiumBy.xpath("//*[@resource-id='suggestions2']") );
 
         List<WebElement> suggestionElements = suggestionsContainer.findElements( AppiumBy.className("android.widget.Button"));
@@ -64,7 +69,13 @@ public class HomePage extends UserActions
             //System.out.println(suggestionText);
             suggestions.add(suggestionText);
         }
+       System.out.println("*** Verified Search Suggestions Successfully for starting with : "+searchProduct+" ***");
+    }
 
+    public PlpPage openSearchSuggestionProduct()
+    {
+        click(searchSuggestedProduct,"random search suggested product");
+        return new PlpPage(driver);
     }
 
 }
