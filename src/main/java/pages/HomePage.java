@@ -14,7 +14,6 @@ import java.util.List;
 
 public class HomePage extends UserActions
 {
-
     AppiumDriver driver;
 
     public HomePage(AppiumDriver driver)
@@ -29,8 +28,20 @@ public class HomePage extends UserActions
     @AndroidFindBy(className ="android.widget.EditText")
     private WebElement searchBox;
 
+    @AndroidFindBy(xpath ="//*[@text='Go']")
+    private WebElement btnGoToSearch;
+
     @AndroidFindBy(xpath ="(//*[@resource-id='suggestions2']//*[contains(@class, 'android.widget.Button')])[3]")
     private WebElement searchSuggestedProduct;
+
+    @AndroidFindBy(xpath ="//*[@content-desc='Cart']")
+    private WebElement iconCart;
+
+    @AndroidFindBy(xpath ="//*[@resource-id='mobile-ptc-button-celWidget']/android.widget.Button")
+    private WebElement btnProceedToCheckout;
+
+
+    // ************************  Page Level Methods
 
     public void verifyHomePageElements()
     {
@@ -40,8 +51,29 @@ public class HomePage extends UserActions
     }
     public void searchProduct(String productName)
     {
+        waitForElement(searchBox);
         sendKeys(searchBox,"Searchbar",productName);
+        waitForSeconds(2);
     }
+
+    public void appRefresh()
+    {
+        scrollUp();
+        waitForElement(logoAmazonIn);
+        click(logoAmazonIn,"Home Logo ");
+        waitForSeconds(5);
+    }
+
+    public CartPage openCart()
+    {
+        scrollUp();
+       // pullToRefresh();
+        click(iconCart,"'CART' icon");
+        waitForElement(btnProceedToCheckout);
+        addLog("CART Summary : " +btnProceedToCheckout.getText());
+        return new CartPage(driver);
+    }
+
 
 
 
@@ -49,8 +81,8 @@ public class HomePage extends UserActions
     public void getSuggestionsList (String searchProduct ) {
         List<String> suggestions = new ArrayList<>();
 
-        waitForSeconds(5);
-        System.out.println("*** Verifying Search Suggestions ***");
+        waitForSeconds(2);
+        addLog("*** Verifying Search Suggestions ***");
         WebElement suggestionsContainer = driver.findElement(AppiumBy.xpath("//*[@resource-id='suggestions2']") );
 
         List<WebElement> suggestionElements = suggestionsContainer.findElements( AppiumBy.className("android.widget.Button"));
@@ -59,17 +91,17 @@ public class HomePage extends UserActions
             String suggestionText = suggestionElement.getText();
             if (suggestionText.toLowerCase().startsWith(searchProduct))
             {
-                System.out.println(suggestionText + " starts with '"+searchProduct+"'");
+                addLog(suggestionText + " starts with '"+searchProduct+"'");
             }
             else
             {
-                System.out.println(suggestionText + " does not start with '"+searchProduct+"'");
+                addLog(suggestionText + " does not start with '"+searchProduct+"'");
             }
 
             //System.out.println(suggestionText);
             suggestions.add(suggestionText);
         }
-       System.out.println("*** Verified Search Suggestions Successfully for starting with : "+searchProduct+" ***");
+       addLog("*** Verified Search Suggestions Successfully for starting with : "+searchProduct+" ***");
     }
 
     public PlpPage openSearchSuggestionProduct()
@@ -77,5 +109,13 @@ public class HomePage extends UserActions
         click(searchSuggestedProduct,"random search suggested product");
         return new PlpPage(driver);
     }
+
+    public PlpPage goForSearch()
+    {
+        click(btnGoToSearch," Btn 'GO' for Search");
+        waitForSeconds(4);
+        return new PlpPage(driver);
+    }
+
 
 }

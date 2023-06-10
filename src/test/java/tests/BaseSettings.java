@@ -11,14 +11,16 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Parameters;
 import pages.HomePage;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.Properties;
 
 public class BaseSettings
 {
     public static AppiumDriver driver;
-    //SignInPage signInPage ;
+    protected Properties testData;
     HomePage homePage;
     DesiredCapabilities capabilities = new DesiredCapabilities();
 
@@ -29,7 +31,21 @@ public class BaseSettings
         // Start Driver As per capability
         startDriver( deviceName,  osVersion,  app,bstackUser, bstackKey,appPackage,appActivity);
         //driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        //signInPage = new SignInPage(driver);
+
+        // Create Properties Object for Test Data
+        testData = new Properties();
+        try
+        {
+            FileInputStream inputStream= new FileInputStream("src/main/resources/test-data.properties");
+            testData.load(inputStream);
+            inputStream.close();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        // Create First Page Instance
         homePage = new HomePage(driver);
     }
 
@@ -45,9 +61,10 @@ public class BaseSettings
 
             capabilities.setCapability("appPackage", appPackage);
             capabilities.setCapability("appActivity", appActivity);
+            capabilities.setCapability("noReset", false);
 
-          //  capabilities.setCapability("noReset", true);  // Do not reset app state between sessions
-          // capabilities.setCapability("fullReset", false);  // Do not reinstall the app on every session
+           // capabilities.setCapability("noReset", false);  // Do not reset app state between sessions
+           //capabilities.setCapability("fullReset", true);  // Do not reinstall the app on every session
 
 
             driver = new AndroidDriver(new URL("http://0.0.0.0:4723"), capabilities);

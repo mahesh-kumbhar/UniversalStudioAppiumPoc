@@ -1,17 +1,27 @@
 package tests;
 
+import com.sun.source.tree.AssertTree;
+import org.testng.Assert;
 import org.testng.annotations.Test;
+import pages.CartPage;
+import pages.CheckoutPage;
 import pages.PlpPage;
 
 public class AmazonAppTests extends BaseSettings
 {
     PlpPage plpPage;
+    CartPage cartPage;
+    CheckoutPage checkoutPage;
 
-    @Test
+    @Test(priority = 1)
     public void  verifyHomePageElements()
     {
         homePage.verifyHomePageElements();
+    }
 
+   @Test(priority = 2)
+    public void verifySearchAndFilter()
+    {
         homePage.searchProduct("e");
         homePage.getSuggestionsList("e");
 
@@ -19,14 +29,40 @@ public class AmazonAppTests extends BaseSettings
         homePage.getSuggestionsList("ear bud");
 
         plpPage = homePage.openSearchSuggestionProduct();
+        plpPage.filerByPriceLowToHigh();
     }
 
-    @Test
-    public void verifyProductFilter()
+    @Test(priority = 3)
+    public void verifyProduct() {
+        plpPage = new PlpPage(driver);
+        plpPage.addProductToCart(2);
+
+        homePage.appRefresh();
+        homePage.searchProduct("mobile");
+        plpPage= homePage.goForSearch();
+
+        plpPage.addProductToCart(2);
+    }
+
+    @Test(priority = 4)
+    public void validateCart()
     {
-       plpPage.filerByPriceLowToHigh();
+        cartPage= homePage.openCart();
+        cartPage.deleteProduct();
+    }
+
+    @Test(priority = 5)
+    public void validateCheckout()
+    {
+        checkoutPage= cartPage.openCheckoutPage();
+        checkoutPage.login(testData.getProperty("azUsername"),testData.getProperty("azPassword"));
+        checkoutPage.selectAddress();
+        checkoutPage.selectPayment(testData.getProperty("cardNumber"));
+
 
     }
+
+
 
 
 }
