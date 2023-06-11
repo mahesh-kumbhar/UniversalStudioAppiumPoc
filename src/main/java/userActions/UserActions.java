@@ -180,6 +180,24 @@ public class UserActions
             }
         }
     }
+
+    protected void scrollUpTo(WebElement element)
+    {
+        boolean isElementDisplayed = false;
+
+        while (!isElementDisplayed) {
+            try
+            {
+                isElementDisplayed = element.isDisplayed();
+            } catch (NoSuchElementException | StaleElementReferenceException e) {
+                // Element not found or stale, indicating it's not yet visible
+            }
+
+            if (!isElementDisplayed) {
+                scrollUp();
+            }
+        }
+    }
     public void navigateBack()
     {
         waitForSeconds(2);

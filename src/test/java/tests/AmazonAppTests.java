@@ -57,7 +57,7 @@ public class AmazonAppTests extends BaseSettings
         checkoutPage= cartPage.openCheckoutPage();
         checkoutPage.login(testData.getProperty("azUsername"),testData.getProperty("azPassword"));
         checkoutPage.selectAddress();
-        checkoutPage.selectPayment(testData.getProperty("cardNumber"));
+        checkoutPage.selectPayment(testData.getProperty("cardNumber"), testData.getProperty("cardCvv"));
 
 
     }

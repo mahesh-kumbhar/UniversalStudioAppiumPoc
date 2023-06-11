@@ -66,8 +66,9 @@ public class HomePage extends UserActions
 
     public CartPage openCart()
     {
+        waitForSeconds(2);
         scrollUp();
-       // pullToRefresh();
+        scrollUpTo(iconCart);
         click(iconCart,"'CART' icon");
         waitForElement(btnProceedToCheckout);
         addLog("CART Summary : " +btnProceedToCheckout.getText());
