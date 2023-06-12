@@ -162,6 +162,18 @@ public class UserActions
         args.put("direction", "down");
         driver.executeScript("mobile: scroll", args);
     }
+    protected boolean isDisplayed(WebElement element)
+    {
+        boolean isElementDisplayed = false;
+
+        try
+        {
+            isElementDisplayed = element.isDisplayed();
+        } catch (Exception e) {
+            // Element not found or stale, indicating it's not yet visible
+        }
+        return isElementDisplayed;
+    }
 
     protected void scrollDownTo(WebElement element)
     {

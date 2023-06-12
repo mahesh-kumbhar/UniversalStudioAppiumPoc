@@ -1,5 +1,7 @@
 package pages;
 
+import dev.failsafe.internal.util.Assert;
+import io.appium.java_client.AppiumBy;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
@@ -36,6 +38,8 @@ public class CheckoutPage extends UserActions
     @AndroidFindBy(xpath ="//*[@text='Deliver to this address']")
     private WebElement btnDeliverToThisAdd;
 
+    @AndroidFindBy(xpath ="//*[@text='Select a payment method']")
+    private WebElement txtSelectPaymentMethod;
     @AndroidFindBy(xpath ="//*[@text='Pay with Debit/Credit/ATM Cards']")
     private WebElement cardPayment;
     @AndroidFindBy(xpath ="//*[@text='Enter card details']")
@@ -55,6 +59,11 @@ public class CheckoutPage extends UserActions
     private WebElement btnNoThanks;
     @AndroidFindBy(xpath ="//*[@hint ='Enter CVV']")
     private WebElement ipCvv;
+    @AndroidFindBy(xpath ="//*[@text='Order now']")
+    private WebElement txtOrderNow;
+
+    @AndroidFindBy(xpath ="//*[@text='Place Your Order and Pay']")
+    private WebElement btnPlaceYourOrderAndPay;
 
 
 
@@ -62,22 +71,30 @@ public class CheckoutPage extends UserActions
 
     public void selectPayment(String cardNumber,String cardCvv)
     {
-        click(cardPayment,"Pay with  Debit/Credit/ATM Card");
-        click(txtCardDetails,"Card Number to open detailed page");
-        sendKeys(ipCardDetails,"Card Number",cardNumber);
-        click(ipEpxYear,"Open Expire Year");
-        click(ipNextYear,"Next Year By Default");
-        click(btnEnterCardDetails,"Button 'Enter card details' to complete this form");
-        click(btnNoThanks,"Button 'No Thank' to store card details");
-        scrollUp();
+        if(isDisplayed(cardPayment))
+        {
+            click(cardPayment, "Pay with  Debit/Credit/ATM Card");
+
+            click(txtCardDetails, "Card Number to open detailed page");
+            sendKeys(ipCardDetails, "Card Number", cardNumber);
+            click(ipEpxYear, "Open Expire Year");
+            click(ipNextYear, "Next Year By Default");
+            click(btnEnterCardDetails, "Button 'Enter card details' to complete this form");
+            click(btnNoThanks, "Button 'No Thank' to store card details");
+            scrollUp();
+        }
         sendKeys(ipCvv,"Card CVV details",cardCvv);
         click(btnContinuePayment,"Button 'Continue with Payment details");
+        waitForElement(txtOrderNow);
+        isDisplayed(btnPlaceYourOrderAndPay,"Button 'Place Your Order and Pay' to proceed with Order");
 
+        //Assert.isTrue(txtSelectPaymentMethod.isDisplayed(),"Failed to place Order With Incorrect Payment Details.");
     }
+
     public void selectAddress()
     {
         click(btnDeliverToThisAdd,"button 'Select This Address' to select default address");
-        waitForElement(cardPayment);
+        waitForElement(txtSelectPaymentMethod);
         addLog("Default address selected successfully");
     }
     public void login(String userName, String password)
