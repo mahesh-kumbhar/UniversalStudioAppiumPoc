@@ -8,7 +8,7 @@
     <parameter name="browserstack.user" value="mahesh_YVwWF2"/>
     <parameter name="browserstack.key" value="gN2PqosqbePbThuxzppf"/>
 
-    <parameter name="app" value="/Users/CG/Downloads/amazonApp.apk"/>
+    <parameter name="app" value="/Users/CG/Downloads/amazonApp.apk"/>// "bs://9d23099c31b04df2e1415cc0360933485f5ee9ce" //  "/Users/CG/Downloads/amazonApp.apk"
     <parameter name="device" value="R9ZT2074CNM"/>//"emulator-5554"
     <parameter name="os_version" value="11.0"/>
     <parameter name="appPackage" value="in.amazon.mShop.android.shopping"/>

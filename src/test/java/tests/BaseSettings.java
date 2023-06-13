@@ -58,10 +58,10 @@ public class BaseSettings
             capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, "UIAutomator2");
             capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "Android");
             capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, deviceName);
+//            capabilities.setCapability(MobileCapabilityType.APP, app);
 
             capabilities.setCapability("appPackage", appPackage);
             capabilities.setCapability("appActivity", appActivity);
-            capabilities.setCapability("noReset", false);
 
            // capabilities.setCapability("noReset", false);  // Do not reset app state between sessions
            //capabilities.setCapability("fullReset", true);  // Do not reinstall the app on every session
@@ -88,7 +88,7 @@ public class BaseSettings
             driver = new IOSDriver(new URL("http://0.0.0.0:4723"), capabilities);
 
         }
-        if (app.contains("androidC"))
+        if (app.contains("bs://"))
         {
             // Use Java Client v6.0.0 or above
             DesiredCapabilities capabilities = new DesiredCapabilities();
@@ -101,7 +101,8 @@ public class BaseSettings
             capabilities.setCapability("platformName", "android");
             capabilities.setCapability("platformVersion", "13.0");
             capabilities.setCapability("deviceName", "Google Pixel 7");
-            capabilities.setCapability("app", "bs://697b00e88c6e0fff18bf49b8a11278d1ba1bca85");
+            capabilities.setCapability("app", app); //"bs://697b00e88c6e0fff18bf49b8a11278d1ba1bca85"
+            //capabilities.setCapability("app", "bs://697b00e88c6e0fff18bf49b8a11278d1ba1bca85");
 
 
             URL browserStackUrl = new URL("https://" + bstackUser + ":" + bstackKey + "@hub-cloud.browserstack.com/wd/hub");

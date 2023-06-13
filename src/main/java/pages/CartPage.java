@@ -20,7 +20,7 @@ public class CartPage extends UserActions
     {
         super(driver);
         this.driver=driver;
-        PageFactory.initElements(new AppiumFieldDecorator(driver, Duration.ofSeconds(10)),this);
+        PageFactory.initElements(new AppiumFieldDecorator(driver),this);
     }
     @AndroidFindBy(xpath ="//*[@text='Delete']")
     private WebElement btnDelete;
@@ -52,8 +52,11 @@ public class CartPage extends UserActions
         waitForSeconds(2);
         afterCount=getProductCount();
         boolean deleteState = beforeCount>afterCount;
-        Assert.isTrue( deleteState,"Failed to delete Product");
-        addLog("Product Deleted Successfully. Previous Count : " + beforeCount + ". After Delete " +afterCount);
+        if(deleteState)
+            addLog("Product Deleted Successfully. \n Previous Count : " + beforeCount + ". \n   After Delete Total Product Count" +afterCount);
+        else
+            Assert.isTrue( deleteState,"Failed to delete Product");
+
     }
 
     public  int getProductCount()

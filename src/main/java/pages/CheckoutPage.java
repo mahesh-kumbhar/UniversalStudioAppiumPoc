@@ -20,7 +20,7 @@ public class CheckoutPage extends UserActions
     {
         super(driver);
         this.driver=driver;
-        PageFactory.initElements(new AppiumFieldDecorator(driver, Duration.ofSeconds(10)),this);
+        PageFactory.initElements(new AppiumFieldDecorator(driver),this);
     }
     @AndroidFindBy(xpath ="//*[@resource-id='ap_email_login']")
     private WebElement ipUserName;
@@ -88,7 +88,6 @@ public class CheckoutPage extends UserActions
         waitForElement(txtOrderNow);
         isDisplayed(btnPlaceYourOrderAndPay,"Button 'Place Your Order and Pay' to proceed with Order");
 
-        //Assert.isTrue(txtSelectPaymentMethod.isDisplayed(),"Failed to place Order With Incorrect Payment Details.");
     }
 
     public void selectAddress()
@@ -105,7 +104,7 @@ public class CheckoutPage extends UserActions
         ipPassword.sendKeys(password);
         click(btnSignIn,"button 'Sign In'");
         waitForElement(btnDeliverToThisAdd);
-        addLog("Logged into account successfully");
+        addLog("Logged into account successfully.");
     }
 
 

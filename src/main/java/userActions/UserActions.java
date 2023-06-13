@@ -7,22 +7,28 @@ import io.appium.java_client.AppiumBy;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidTouchAction;
+import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.touch.offset.PointOption;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.PointerInput;
 import org.openqa.selenium.interactions.Sequence;
 import org.openqa.selenium.remote.RemoteWebElement;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class UserActions
 {
     AppiumDriver driver;
+    protected Duration syncDuration = Duration.ofSeconds(1);
 
     protected UserActions(AppiumDriver driver)
     {
@@ -130,6 +136,7 @@ public class UserActions
         swipe.addAction(input.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
         driver.perform(Arrays.asList(swipe));
         waitForSeconds(1);
+        addLog("performed swipe Left >> Right");
     }
 
     protected void swipeRightToLeft() {
@@ -149,6 +156,7 @@ public class UserActions
         swipe.addAction(input.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
         driver.perform(Arrays.asList(swipe));
         waitForSeconds(1);
+        addLog("performed swipe Right >> Left");
     }
 
 
@@ -164,50 +172,42 @@ public class UserActions
     }
     protected boolean isDisplayed(WebElement element)
     {
-        boolean isElementDisplayed = false;
+        boolean myStatus=false;
 
-        try
-        {
-            isElementDisplayed = element.isDisplayed();
-        } catch (Exception e) {
-            // Element not found or stale, indicating it's not yet visible
+        try {
+            myStatus = element.isDisplayed();
         }
-        return isElementDisplayed;
+        catch (Exception e)
+        {
+
+        }
+        return myStatus;
     }
 
     protected void scrollDownTo(WebElement element)
     {
-        boolean isElementDisplayed = false;
+        int scrollCount=0;
 
-        while (!isElementDisplayed) {
-            try
-            {
-                isElementDisplayed = element.isDisplayed();
-            } catch (NoSuchElementException | StaleElementReferenceException e) {
-                // Element not found or stale, indicating it's not yet visible
-            }
-
-            if (!isElementDisplayed) {
-                scrollDown();
-            }
+        while (scrollCount<5)
+        {
+            if (isDisplayed(element))
+                break;
+            scrollDown();
+            scrollCount++;
         }
     }
 
     protected void scrollUpTo(WebElement element)
     {
-        boolean isElementDisplayed = false;
+        int scrollCounter=0;
 
-        while (!isElementDisplayed) {
-            try
-            {
-                isElementDisplayed = element.isDisplayed();
-            } catch (NoSuchElementException | StaleElementReferenceException e) {
-                // Element not found or stale, indicating it's not yet visible
-            }
+        while (scrollCounter<5) {
 
-            if (!isElementDisplayed) {
-                scrollUp();
-            }
+            if(isDisplayed(element))
+                break;
+
+            scrollUp();
+            scrollCounter++;
         }
     }
     public void navigateBack()

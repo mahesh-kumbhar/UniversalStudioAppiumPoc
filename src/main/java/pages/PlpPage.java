@@ -1,5 +1,6 @@
 package pages;
 
+import dev.failsafe.internal.util.Assert;
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
@@ -21,7 +22,7 @@ public class PlpPage extends UserActions
     {
         super(driver);
         this.driver=driver;
-        PageFactory.initElements(new AppiumFieldDecorator(driver, Duration.ofSeconds(10)),this);
+        PageFactory.initElements(new AppiumFieldDecorator(driver),this);
     }
     @AndroidFindBy(xpath ="//*[@resource-id='s-all-filters']")
     private WebElement btnFilter;
@@ -61,7 +62,7 @@ public class PlpPage extends UserActions
         WebElement product= driver.findElement(AppiumBy.xpath(productXpath));
 
 
-        click(product,"Product : "+IndexNumber+" to Open in Details");
+        click(product,"Product number : "+IndexNumber+" to open in details");
         //clickIfDisplayed(btnX,"Close Sign in Page Alert");
 
         waitForSeconds(1);
@@ -76,22 +77,19 @@ public class PlpPage extends UserActions
         waitForSeconds(2);
         click(btnAddToCart,"Button 'Add to Cart'");
 
-        waitForElement(txtAddedToCart);
-
-
+        waitForElement( txtAddedToCart);
+        isDisplayed( txtAddedToCart,"Product Added successfully to cart");
         clickIfDisplayed(btnDone,"Button 'DONE'");
-
-    //  navigateBack();
-    //  navigateBack();
     }
 
 
     public void filerByPriceLowToHigh()
     {
         click(btnFilter,"Button Filter");
-        click(optionSortBy,"option 'Sort by'");
+        click(optionSortBy,"Option 'Sort by'");
         click(optionSPriceLowToHigh,"Option 'Price: Low to High'");
-        click(btnShowResults,"Button Show Result");
+        waitForElement(btnShowResults);
+        click(btnShowResults,"Button 'Show Result'");
         waitForSeconds(5);
 
         //scrollDownToElementByText("More results");
@@ -117,8 +115,10 @@ public class PlpPage extends UserActions
         boolean isAscendingOrder = isAscending(priceList);
         if(isAscendingOrder)
             addLog("Price is sorted by Low to High");
-        else
+        else {
             addLog("XXX FAILED : Price is not sorted by Low to High");
+            Assert.isTrue(isAscendingOrder, "XXX FAILED : Price is not sorted by Low to High");
+        }
 
 
     }

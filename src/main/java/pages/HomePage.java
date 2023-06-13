@@ -1,5 +1,6 @@
 package pages;
 
+import dev.failsafe.internal.util.Assert;
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
@@ -20,7 +21,7 @@ public class HomePage extends UserActions
     {
         super(driver);
         this.driver=driver;
-        PageFactory.initElements(new AppiumFieldDecorator(driver, Duration.ofSeconds(10)),this);
+        PageFactory.initElements(new AppiumFieldDecorator(driver),this);
     }
     @AndroidFindBy(xpath ="//*[@content-desc='Amazon.in']")
     private WebElement logoAmazonIn;
@@ -41,23 +42,33 @@ public class HomePage extends UserActions
     private WebElement btnProceedToCheckout;
 
 
+    @AndroidFindBy(xpath ="//*[@resource-id='AAAAAA']")
+    private WebElement aaa;
+
+
+    @AndroidFindBy(xpath ="//*[@resource-id='BBBBBB']")
+    private WebElement bbb;
+
+
     // ************************  Page Level Methods
 
     public void verifyHomePageElements()
     {
         longWaitForElement (logoAmazonIn);
-        isDisplayed (logoAmazonIn,"Logo Amazon In");
-        isDisplayed(searchBox,"searchBox");
+        isDisplayed (logoAmazonIn,"Logo 'Amazon In' on Home page");
+        isDisplayed(searchBox,"Product 'Search Box' on Home Page");
+        addLog("Home Page variables verified successfully ");
     }
     public void searchProduct(String productName)
     {
         waitForElement(searchBox);
-        sendKeys(searchBox,"Searchbar",productName);
+        sendKeys(searchBox,"text in Search box starting with ",productName);
         waitForSeconds(2);
     }
 
     public void appRefresh()
     {
+        waitForSeconds(1);
         scrollUp();
         waitForElement(logoAmazonIn);
         click(logoAmazonIn,"Home Logo ");
@@ -66,12 +77,10 @@ public class HomePage extends UserActions
 
     public CartPage openCart()
     {
-        waitForSeconds(2);
-        scrollUp();
         scrollUpTo(iconCart);
         click(iconCart,"'CART' icon");
         waitForElement(btnProceedToCheckout);
-        addLog("CART Summary : " +btnProceedToCheckout.getText());
+        addLog("CART Summary : " +btnProceedToCheckout.getText().replace("Proceed to Buy",""));
         return new CartPage(driver);
     }
 
@@ -80,10 +89,11 @@ public class HomePage extends UserActions
 
 
     public void getSuggestionsList (String searchProduct ) {
+        boolean searchState=false;
         List<String> suggestions = new ArrayList<>();
 
         waitForSeconds(2);
-        addLog("*** Verifying Search Suggestions ***");
+        addLog("Verifying below Search Suggestions Starting with : "+searchProduct);
         WebElement suggestionsContainer = driver.findElement(AppiumBy.xpath("//*[@resource-id='suggestions2']") );
 
         List<WebElement> suggestionElements = suggestionsContainer.findElements( AppiumBy.className("android.widget.Button"));
@@ -93,27 +103,36 @@ public class HomePage extends UserActions
             if (suggestionText.toLowerCase().startsWith(searchProduct))
             {
                 addLog(suggestionText + " starts with '"+searchProduct+"'");
+                searchState=true;
             }
             else
             {
                 addLog(suggestionText + " does not start with '"+searchProduct+"'");
+                searchState=false;
             }
 
             //System.out.println(suggestionText);
             suggestions.add(suggestionText);
         }
-       addLog("*** Verified Search Suggestions Successfully for starting with : "+searchProduct+" ***");
+        if(searchState)
+            addLog("Search suggestions passed for starting with '"+searchProduct+"' text.");
+        else {
+            addLog("Search suggestions failed for starting with '" + searchProduct + "' text.");
+            Assert.isTrue(searchState, "Search suggestions failed for starting with '" + searchProduct + "' text.");
+        }
+
+
     }
 
     public PlpPage openSearchSuggestionProduct()
     {
-        click(searchSuggestedProduct,"random search suggested product");
+        click(searchSuggestedProduct,searchSuggestedProduct.getText()+" search suggested product");
         return new PlpPage(driver);
     }
 
     public PlpPage goForSearch()
     {
-        click(btnGoToSearch," Btn 'GO' for Search");
+        click(btnGoToSearch,"button 'GO' for get Search results");
         waitForSeconds(4);
         return new PlpPage(driver);
     }

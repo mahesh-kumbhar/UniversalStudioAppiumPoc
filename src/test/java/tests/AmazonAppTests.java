@@ -19,7 +19,7 @@ public class AmazonAppTests extends BaseSettings
         homePage.verifyHomePageElements();
     }
 
-   @Test(priority = 2)
+   @Test(priority = 2 ,dependsOnMethods = "verifyHomePageElements")
     public void verifySearchAndFilter()
     {
         homePage.searchProduct("e");
@@ -32,7 +32,7 @@ public class AmazonAppTests extends BaseSettings
         plpPage.filerByPriceLowToHigh();
     }
 
-    @Test(priority = 3)
+    @Test(priority = 3, dependsOnMethods = "verifySearchAndFilter")
     public void verifyProduct() {
         plpPage = new PlpPage(driver);
         plpPage.addProductToCart(2);
@@ -44,22 +44,20 @@ public class AmazonAppTests extends BaseSettings
         plpPage.addProductToCart(2);
     }
 
-    @Test(priority = 4)
-    public void validateCart()
+    @Test(priority = 4, dependsOnMethods = "verifyProduct")
+    public void verifyCart()
     {
         cartPage= homePage.openCart();
         cartPage.deleteProduct();
     }
 
-    @Test(priority = 5)
+    @Test(priority = 5, dependsOnMethods = "verifyCart")
     public void validateCheckout()
     {
         checkoutPage= cartPage.openCheckoutPage();
         checkoutPage.login(testData.getProperty("azUsername"),testData.getProperty("azPassword"));
         checkoutPage.selectAddress();
         checkoutPage.selectPayment(testData.getProperty("cardNumber"), testData.getProperty("cardCvv"));
-
-
     }
 
 
