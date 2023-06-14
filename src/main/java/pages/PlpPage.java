@@ -49,6 +49,8 @@ public class PlpPage extends UserActions
 
 
 
+
+
     public void addProductToCart(int IndexNumber)
     {
         String productXpath ="(//*[contains(@content-desc,'₹')])["+ IndexNumber+"]";
@@ -63,7 +65,7 @@ public class PlpPage extends UserActions
 
 
         click(product,"Product number : "+IndexNumber+" to open in details");
-        //clickIfDisplayed(btnX,"Close Sign in Page Alert");
+        clickIfDisplayed(btnX,"Close Sign in Page Alert");
 
         waitForSeconds(1);
         swipeRightToLeft();
@@ -89,7 +91,10 @@ public class PlpPage extends UserActions
         click(optionSortBy,"Option 'Sort by'");
         click(optionSPriceLowToHigh,"Option 'Price: Low to High'");
         waitForElement(btnShowResults);
-        click(btnShowResults,"Button 'Show Result'");
+        waitForSeconds(5);
+
+        click(btnShowResults, "Button 'Show Result'");
+
         waitForSeconds(5);
 
         //scrollDownToElementByText("More results");

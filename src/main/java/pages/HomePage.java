@@ -41,13 +41,8 @@ public class HomePage extends UserActions
     @AndroidFindBy(xpath ="//*[@resource-id='mobile-ptc-button-celWidget']/android.widget.Button")
     private WebElement btnProceedToCheckout;
 
-
-    @AndroidFindBy(xpath ="//*[@resource-id='AAAAAA']")
-    private WebElement aaa;
-
-
-    @AndroidFindBy(xpath ="//*[@resource-id='BBBBBB']")
-    private WebElement bbb;
+    @AndroidFindBy(xpath ="//*[@text='OK']")
+    private WebElement btnOK;
 
 
     // ************************  Page Level Methods
@@ -55,6 +50,8 @@ public class HomePage extends UserActions
     public void verifyHomePageElements()
     {
         longWaitForElement (logoAmazonIn);
+        clickIfDisplayed(btnOK,"Button 'OK' for 'Running in chrome' Notification");
+
         isDisplayed (logoAmazonIn,"Logo 'Amazon In' on Home page");
         isDisplayed(searchBox,"Product 'Search Box' on Home Page");
         addLog("Home Page variables verified successfully ");
@@ -69,7 +66,7 @@ public class HomePage extends UserActions
     public void appRefresh()
     {
         waitForSeconds(1);
-        scrollUp();
+        scrollUpTo(logoAmazonIn);
         waitForElement(logoAmazonIn);
         click(logoAmazonIn,"Home Logo ");
         waitForSeconds(5);

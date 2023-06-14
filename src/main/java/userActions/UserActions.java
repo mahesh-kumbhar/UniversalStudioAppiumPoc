@@ -70,14 +70,13 @@ public class UserActions
 
     protected void clickIfDisplayed(WebElement element,String eleName)
     {
-        try {
-            if (element.isDisplayed()) {
+        try{
+            if (isDisplayed(element)) {
                 element.click();
                 addLog("Clicked on : " + eleName);
             }
         }
-        catch (Exception e)
-        { }
+        catch (Exception e){}
     }
 
     protected void sendKeys(WebElement element,String eleName,String strVal)
@@ -177,10 +176,8 @@ public class UserActions
         try {
             myStatus = element.isDisplayed();
         }
-        catch (Exception e)
-        {
+        catch (Exception ignored){ }
 
-        }
         return myStatus;
     }
 

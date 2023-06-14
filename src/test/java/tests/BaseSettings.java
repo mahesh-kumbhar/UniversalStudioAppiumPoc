@@ -93,14 +93,14 @@ public class BaseSettings
             // Use Java Client v6.0.0 or above
             DesiredCapabilities capabilities = new DesiredCapabilities();
             HashMap<String, Object> browserstackOptions = new HashMap<String, Object>();
-            browserstackOptions.put("projectName", "UniversalStudioPoc");
+            browserstackOptions.put("projectName", "Amazon App");
             browserstackOptions.put("buildName", "Demo");
-            browserstackOptions.put("sessionName", "BookTicket");
+            browserstackOptions.put("sessionName", "Smoke Test");
             browserstackOptions.put("appiumVersion", "2.0.0");
             capabilities.setCapability("bstack:options", browserstackOptions);
             capabilities.setCapability("platformName", "android");
-            capabilities.setCapability("platformVersion", "13.0");
-            capabilities.setCapability("deviceName", "Google Pixel 7");
+            capabilities.setCapability("platformVersion", "10.0");
+            capabilities.setCapability("deviceName", "Samsung Galaxy A11");
             capabilities.setCapability("app", app); //"bs://697b00e88c6e0fff18bf49b8a11278d1ba1bca85"
             //capabilities.setCapability("app", "bs://697b00e88c6e0fff18bf49b8a11278d1ba1bca85");
 
