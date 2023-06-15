@@ -6,7 +6,9 @@ import dev.failsafe.internal.util.Assert;
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.TouchAction;
+import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidTouchAction;
+import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.touch.offset.PointOption;
 import org.openqa.selenium.*;
@@ -287,6 +289,14 @@ public class UserActions
                 PointerInput.Origin.viewport(), endX, endY));
         scroll.addAction(input.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
         driver.perform(Arrays.asList(scroll));
+    }
+
+    public void dismissKeyboard()
+    {
+        if(driver instanceof AndroidDriver)
+            ((AndroidDriver) driver).hideKeyboard();
+        else
+            ((IOSDriver) driver).hideKeyboard();
     }
 
 }

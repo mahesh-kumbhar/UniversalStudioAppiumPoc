@@ -33,27 +33,63 @@ public class CartPage extends UserActions
     @AndroidFindBy(xpath ="//*[@text='Sign in. Already a customer?']")
     private WebElement txtSignInOption;
 
+    @AndroidFindBy(xpath ="//*[@text='+']")
+    private WebElement btnPlus;
 
+    @AndroidFindBy(xpath ="//*[@text='-']")
+    private WebElement btnMinus;
 
     // ******************* methods
 
+    public void incrementCount()
+    {
+        addLog("Verifying add product by '+' button");
+        int beforeCount=getProductCount();
+        scrollDownTo(btnPlus);
+        click(btnPlus,"Button '+' to add one more product count");
+        waitForSeconds(2);
+        int afterCount=getProductCount();
+
+        boolean incrementState = beforeCount<afterCount;
+        if(incrementState)
+            addLog("Product count incremented by '+' button successfully. \n Previous Count : " + beforeCount + ". \n   After '+' Total Product Count : " +afterCount);
+        else
+            Assert.isTrue( incrementState,"Failed to increment product");
+    }
+
+    public void decrementCount()
+    {
+        addLog("Verifying reduce product by '-' button");
+        int beforeCount=getProductCount();
+        click(btnMinus,"Button '-' to remove product count");
+        waitForSeconds(4);
+        int afterCount=getProductCount();
+
+        boolean decrementState = beforeCount>afterCount;
+        if(decrementState)
+            addLog("Product count decremented by '-' button successfully. \n Previous Count : " + beforeCount + ". \n   After '+' Total Product Count : " +afterCount);
+        else
+            Assert.isTrue( decrementState,"Failed to increment Product \n Previous Count : " + beforeCount + ". \n   After '+' Total Product Count : " +afterCount);
+    }
+
     public CheckoutPage openCheckoutPage()
     {
-        click(btnProceedToCheckout,"Button 'Proceed to Buy' to open 'CHECKOUT' page in details");
+        click(btnProceedToCheckout,"Button 'Proceed to Buy' to open 'CHECKOUT' page in details.");
         waitForElement(txtSignInOption);
         return new CheckoutPage(driver);
     }
 
     public void deleteProduct()
     {
-        int beforeCount,afterCount;
-        beforeCount=getProductCount();
+        addLog("Verifying delete product by 'delete' button");
+        int beforeCount=getProductCount();
         click(btnDelete,"Button 'Delete'");
         waitForSeconds(2);
-        afterCount=getProductCount();
+        int afterCount=getProductCount();
+
         boolean deleteState = beforeCount>afterCount;
         if(deleteState)
-            addLog("Product Deleted Successfully. \n Previous Count : " + beforeCount + ". \n   After Delete Total Product Count" +afterCount);
+            addLog("Product Deleted Successfully. \n Previous Count : " + beforeCount + ". \n   After Delete Total Product Count : " +afterCount);
         else
             Assert.isTrue( deleteState,"Failed to delete Product");
 

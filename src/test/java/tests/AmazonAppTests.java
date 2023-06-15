@@ -22,11 +22,11 @@ public class AmazonAppTests extends BaseSettings
    @Test(priority = 2 ,dependsOnMethods = "verifyHomePageElements")
     public void verifySearchAndFilter()
     {
-        homePage.searchProduct("e");
-        homePage.getSuggestionsList("e");
+        homePage.searchProduct("m");
+        homePage.getSuggestionsList("m");
 
-        homePage.searchProduct("ear bud");
-        homePage.getSuggestionsList("ear bud");
+        homePage.searchProduct("mobile");
+        homePage.getSuggestionsList("mobile");
 
         plpPage = homePage.openSearchSuggestionProduct();
         plpPage.filerByPriceLowToHigh();
@@ -38,7 +38,7 @@ public class AmazonAppTests extends BaseSettings
         plpPage.addProductToCart(2);
 
         homePage.appRefresh();
-        homePage.searchProduct("mobile");
+        homePage.searchProduct("fruit");
         plpPage= homePage.goForSearch();
 
         plpPage.addProductToCart(2);
@@ -48,7 +48,10 @@ public class AmazonAppTests extends BaseSettings
     public void verifyCart()
     {
         cartPage= homePage.openCart();
+        cartPage.incrementCount();
+        cartPage.decrementCount();
         cartPage.deleteProduct();
+
     }
 
     @Test(priority = 5, dependsOnMethods = "verifyCart")
@@ -56,7 +59,8 @@ public class AmazonAppTests extends BaseSettings
     {
         checkoutPage= cartPage.openCheckoutPage();
         checkoutPage.login(testData.getProperty("azUsername"),testData.getProperty("azPassword"));
-        checkoutPage.selectAddress();
+        //checkoutPage.selectAddress();
+        checkoutPage.addAddress("Laxmi Sadan Sharad Nagar","411019");
         checkoutPage.selectPayment(testData.getProperty("cardNumber"), testData.getProperty("cardCvv"));
     }
 

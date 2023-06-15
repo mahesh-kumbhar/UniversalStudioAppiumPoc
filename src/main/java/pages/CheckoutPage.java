@@ -3,10 +3,12 @@ package pages;
 import dev.failsafe.internal.util.Assert;
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.opentelemetry.exporter.logging.SystemOutLogRecordExporter;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
 import userActions.UserActions;
 
@@ -65,9 +67,44 @@ public class CheckoutPage extends UserActions
     @AndroidFindBy(xpath ="//*[@text='Place Your Order and Pay']")
     private WebElement btnPlaceYourOrderAndPay;
 
+    @AndroidFindBy(xpath ="//*[@text='Add a New Address']")
+    private WebElement btnAddNewAddress;
+    @AndroidFindBy(xpath ="//*[@resource-id='address-ui-widgets-enterAddressLine1']")
+    private WebElement ipFirstAddress;
 
+    @AndroidFindBy(xpath ="//*[@resource-id='address-ui-widgets-enterAddressPostalCode']")
+    private WebElement ipPinCode;
+    @AndroidFindBy(xpath ="//*[@text='Pincode']/parent::*")
+    private WebElement txtPinCode;
+
+    @AndroidFindBy(xpath ="//*[@text='Use this address']")
+    private WebElement btnUseThisAddress;
 
     //********************** Test Methods
+    public void addAddress(String addressLin1,String pinCode)
+    {
+        scrollDownTo(btnAddNewAddress);
+        click(btnAddNewAddress,"Button 'Add a new Address'");
+        waitForElement(ipFirstAddress);
+        sendKeys(ipFirstAddress,"Flat, House no., Building, Company, Apartment",addressLin1);
+        scrollDown();
+        try
+        {
+            sendKeys(ipPinCode,"Postal Code",pinCode);
+        }
+        catch (Exception  e)
+        {
+            ipPinCode.click();
+            new Actions(driver).sendKeys(pinCode).perform();
+        }
+
+        click(txtPinCode,"text to dismiss keyboard");
+
+        scrollDownTo(btnUseThisAddress);
+        click(btnUseThisAddress,"Button 'User ");
+        waitForElement(txtSelectPaymentMethod);
+        addLog("New address added and selected successfully");
+    }
 
     public void selectPayment(String cardNumber,String cardCvv)
     {
